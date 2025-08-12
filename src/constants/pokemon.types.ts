@@ -89,12 +89,12 @@ export const getPokcolor = (type) => {
 
 export const getBackground = (pokemonTypes) => {
   let color = "";
-  if (pokemonTypes.length) {
+  if (pokemonTypes?.length) {
     const {
       type: { name: pokemontype1 },
     } = pokemonTypes[0];
 
-    if (pokemonTypes.length > 1) {
+    if (pokemonTypes?.length > 1) {
       const {
         type: { name: pokemontype2 },
       } = pokemonTypes[1];

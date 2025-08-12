@@ -21,9 +21,9 @@ const HomePage = () => {
   const pokemonsListView = useMemo(
     () =>
       pokemonsList?.map((data) => (
-        <div key={data.id} className="responsive">
+        <div key={`list-${data.id}-${data.name}`} className="responsive">
           <PokemonCard
-            key={data.id}
+            key={`card-${data.id}-${data.name}`}
             data={data}
             onClick={() => {
               setPokemonId(data.id);

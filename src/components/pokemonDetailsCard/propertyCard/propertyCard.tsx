@@ -4,7 +4,7 @@ import "../../../styles/common.scss";
 import ColorfulTag from "../colorfulTags/colorfulTag";
 import "./propertyCard.scss";
 
-const PropertyCard = ({ speciesData, data, pokemonTypeData }: any) => {
+const PropertyCard = ({ speciesData, data, pokemonTypeData = {} }: any) => {
   return (
     <div className="property-container">
       <Grid fluid>
@@ -38,7 +38,7 @@ const PropertyCard = ({ speciesData, data, pokemonTypeData }: any) => {
               <div>
                 <span className="prop-header">Egg Groups</span>
               </div>
-              {speciesData.egg_groups.length &&
+              {speciesData?.egg_groups?.length &&
                 speciesData.egg_groups.map((item, index) => (
                   <span key={item.name} className="prop-header-data">
                     {getCamleCaseString(item.name)}
@@ -72,8 +72,8 @@ const PropertyCard = ({ speciesData, data, pokemonTypeData }: any) => {
               </div>
               <div className="prop-header-data">
                 <div className="type-wrap">
-                  {data.types.length &&
-                    data.types.map((item, index) => (
+                  {data?.types?.length &&
+                    data?.types.map((item, index) => (
                       <ColorfulTag
                         className="pr-1"
                         key={item.type.name + index}
@@ -91,8 +91,9 @@ const PropertyCard = ({ speciesData, data, pokemonTypeData }: any) => {
                 <span className="prop-header">Weak Against</span>
               </div>
               <div className="prop-header-data type-wrap">
-                {pokemonTypeData.damage_relations.double_damage_from.length &&
-                  pokemonTypeData.damage_relations.double_damage_from.map(
+                {pokemonTypeData?.damage_relations?.double_damage_from
+                  ?.length &&
+                  pokemonTypeData?.damage_relations?.double_damage_from?.map(
                     (item, index) => (
                       <ColorfulTag
                         key={item.name + index}

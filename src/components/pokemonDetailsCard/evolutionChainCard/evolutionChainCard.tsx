@@ -10,13 +10,13 @@ const EvolutionChainCard = ({ data }: any) => {
     <div>
       <div className="evol-container">
         <div className="evol-wrap evolu-break">
-          {arrayele.map((obj, index) => (
+          {arrayele?.map((obj, index) => (
             <div className="flex-row" key={obj}>
               <div>
                 <div className="pt-2">
                   <PokemonCard
                     className="disabled-click"
-                    key={data.id}
+                    key={data?.id}
                     data={data}
                   />
                 </div>

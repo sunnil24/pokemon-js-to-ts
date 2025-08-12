@@ -30,7 +30,7 @@ const DetailPageWrapper: React.FC = () => {
   );
 };
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <main>
       <PokemonProvider>
@@ -59,4 +59,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default React.memo(App); // Memoizing to prevent unnecessary re-renders

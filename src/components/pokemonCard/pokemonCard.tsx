@@ -45,7 +45,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
         }
       }}
       style={{
-        background: getBackground(data.types),
+        background: getBackground(data?.types),
         border: "none",
         padding: 0,
         width: "100%",

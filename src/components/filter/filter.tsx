@@ -1,16 +1,12 @@
+import PropTypes from "prop-types";
 import { useContext, useEffect, useState } from "react";
 import { Col, Row } from "rsuite";
-import { debounceTime, distinctUntilChanged, map, Observable, of } from "rxjs";
+import { debounceTime, distinctUntilChanged, map, of } from "rxjs";
 import { baseURL, SEARCH_SLICED } from "../../constants/apiUrls";
 import { getCamleCaseString } from "../../constants/pokemon.types";
+import PokemonContext from "../../context/pokemonContext/pokmon.context";
 import * as ACTIONS from "../../store/actions/pokemonAction";
 
-import PokemonContext, {
-  Pokemon,
-  PokemonContextType,
-  PokemonGender,
-  PokemonType,
-} from "../../context/pokemonContext/pokemon.context986348923";
 import {
   getAllParallelCall,
   getPokemonGenders,
@@ -21,61 +17,57 @@ import "./filter.scss";
 import AppMultiSelectDropDown from "./multiSelectdropDown/multiSelectdropDown";
 import SearchFilter from "./search/search.filter";
 
-interface AppFilterProps {
-  isFilterEnable: (enabled: boolean) => void;
-}
-
-interface DropdownOption {
-  label: string;
-  value: string;
-  url: string;
-}
-
-type SearchChangeHandler = (value: string, event: React.FormEvent) => void;
-type DropdownChangeHandler = (value: string[], event: React.FormEvent) => void;
-
-const AppFilter: React.FC<AppFilterProps> = (props) => {
+const AppFilter = ({ ...props }) => {
   const {
     state,
     getPokemonData,
     dispatch,
     setAppLoading,
     getPokemonDetailsListByUrl,
-  } = useContext<PokemonContextType>(PokemonContext);
+  } = useContext(PokemonContext);
+  const { allPokemonsList, pokemonsTypes, pokemonGenderList } = state;
 
-  const { allPokemonsList, pokemonTypes, pokemonGenders } = state;
+  console.log(state, "state in filter");
 
   const [isOpenTypeFilter, setIsOpenTypeFilter] = useState(false);
-  const [isOpenGendreFilter, setIsOpenGendreFilter] = useState(false);
+  const [isOpenGendreFilter, setIsOpenGenderFilter] = useState(false);
 
-  let data$: Observable<Pokemon[]> = of([]);
+  let data$ = of([]);
 
-  const onOpenTypeHandler = () => setIsOpenTypeFilter(true);
-  const onCloseTypeHandler = () => setIsOpenTypeFilter(false);
-  const onOpenGenderHandler = () => setIsOpenGendreFilter(true);
-  const onCloseGenderHandler = () => setIsOpenGendreFilter(false);
+  const onOpenTypeHandler = () => {
+    setIsOpenTypeFilter(true);
+  };
+  const onCloseTypeHandler = () => {
+    setIsOpenTypeFilter(false);
+  };
 
-  const onCleanTypeHandler = (event?: unknown) => {
+  const onOpenGenderHandler = () => {
+    setIsOpenGenderFilter(true);
+  };
+  const onCloseGenderHandler = () => {
+    setIsOpenGenderFilter(false);
+  };
+
+  const onCleanTypeHandler = (event) => {
     if (event) {
       props.isFilterEnable(false);
     }
   };
 
-  const onSearchChangeHandler: SearchChangeHandler = (value, event) => {
+  const onSearchChangeHandler = (value, event) => {
     event.preventDefault();
     value = value.trim();
     setAppLoading(true);
-
     if (value.length) {
       props.isFilterEnable(true);
       data$ = of(allPokemonsList).pipe(
         debounceTime(4000),
         distinctUntilChanged(),
-        map((pokemons) =>
-          pokemons.filter((item) =>
-            item.name.toLowerCase().includes(value.toLowerCase())
-          )
-        )
+        map((pokmons) => {
+          return pokmons.filter(
+            (item) => item.name.toLowerCase().indexOf(value.toLowerCase()) > -1
+          );
+        })
       );
     } else {
       filterPokemonData([]);
@@ -87,22 +79,19 @@ const AppFilter: React.FC<AppFilterProps> = (props) => {
       if (pokemanList.length > SEARCH_SLICED) {
         pokemanList = pokemanList.slice(0, SEARCH_SLICED);
       }
-      getPokemonDetailsListByUrl(
-        pokemanList.map((p) => baseURL + "/pokemon/" + p.name)
-      ).then((res) => {
+      getPokemonDetailsListByUrl(pokemanList).then((res) => {
         filterPokemonData(res);
       });
     });
-
     setAppLoading(false);
   };
 
-  const onTypeChangeHandler: DropdownChangeHandler = (value, event) => {
+  const onTypeChangeHandler = (value, event) => {
     event.preventDefault();
     if (value.length) {
       props.isFilterEnable(true);
       getAllParallelCall(value)
-        .then((pokemonList: any[]) => {
+        .then((pokemonList) => {
           pokemonList = pokemonList.map((res) => res.pokemon);
           pokemonList = pokemonList.flat().map((res) => res.pokemon);
           pokemonList = removeDuplicateBy(pokemonList, "name");
@@ -121,12 +110,12 @@ const AppFilter: React.FC<AppFilterProps> = (props) => {
     }
   };
 
-  const onGenderChangeHandler: DropdownChangeHandler = (value, event) => {
+  const onGenderChangeHandler = (value, event) => {
     event.preventDefault();
     if (value.length) {
       props.isFilterEnable(true);
       getAllParallelCall(value)
-        .then((pokemonList: any[]) => {
+        .then((pokemonList) => {
           pokemonList = pokemonList
             .map((res) => res.pokemon_species_details)
             .flat();
@@ -136,15 +125,15 @@ const AppFilter: React.FC<AppFilterProps> = (props) => {
               "/pokemon" +
               res.pokemon_species.url.split("pokemon-species")[1]
           );
-          pokemonList = Array.from(new Set(pokemonList));
+          pokemonList = [...new Set(pokemonList)];
           if (pokemonList.length > SEARCH_SLICED) {
             pokemonList = [
               ...pokemonList.slice(0, SEARCH_SLICED),
               ...pokemonList.slice(-SEARCH_SLICED),
             ];
           }
-          const urlList = pokemonList;
-          getPokemonDetailsListByUrl(urlList).then((res) => {
+          pokemonList = pokemonList.map((res) => ({ url: res }));
+          getPokemonDetailsListByUrl(pokemonList).then((res) => {
             filterPokemonData(res);
           });
         })
@@ -156,23 +145,23 @@ const AppFilter: React.FC<AppFilterProps> = (props) => {
     }
   };
 
-  const filterPokemonData = (data: Pokemon[]) => {
+  const filterPokemonData = (data) => {
     dispatch({
       type: ACTIONS.SET_FILTERED_POKEMON_LIST,
       payload: data,
     });
   };
 
-  const setPokemonTypes = (data: PokemonType[]) => {
+  const setPokemonTypes = (data) => {
     if (data.length) {
-      const formatted: DropdownOption[] = data.map((item) => ({
+      data = data.map((item) => ({
         label: getCamleCaseString(item.name),
         value: item.url,
         url: item.url,
       }));
       dispatch({
         type: ACTIONS.SET_POKEMON_TYPE,
-        payload: formatted,
+        payload: data,
       });
     } else {
       dispatch({
@@ -182,16 +171,16 @@ const AppFilter: React.FC<AppFilterProps> = (props) => {
     }
   };
 
-  const setPokemonGendersList = (genderList: PokemonGender[]) => {
-    const formatted: DropdownOption[] = genderList.map((item) => ({
+  const setPokemonGendersList = (genderList) => {
+    genderList = genderList.map((item) => ({
       label: getCamleCaseString(item.name),
       value: item.url,
       url: item.url,
     }));
-    if (formatted.length) {
+    if (genderList.length) {
       dispatch({
         type: ACTIONS.SET_POKEMON_GENDER_LIST,
-        payload: formatted,
+        payload: genderList,
       });
     } else {
       dispatch({
@@ -206,7 +195,9 @@ const AppFilter: React.FC<AppFilterProps> = (props) => {
       .then((res) => {
         setPokemonTypes(res.results);
       })
-      .catch((err) => new Error(err));
+      .catch((err) => {
+        return new Error(err);
+      });
   };
 
   const getPokemonGendersList = async () => {
@@ -214,7 +205,9 @@ const AppFilter: React.FC<AppFilterProps> = (props) => {
       .then((res) => {
         setPokemonGendersList(res.results);
       })
-      .catch((err) => new Error(err));
+      .catch((err) => {
+        return new Error(err);
+      });
   };
 
   useEffect(() => {
@@ -223,50 +216,55 @@ const AppFilter: React.FC<AppFilterProps> = (props) => {
   }, []);
 
   return (
-    <div className="filter-container">
-      <div className="filter-wrap">
-        <Row className="filter-row-wrap show-grid">
-          <Col lg={16} xl={16} xs={24} sm={24}>
-            <div>
-              <SearchFilter
-                placeholder="Name or Number"
-                inputClass="pokemon-search-filter"
-                label="Search By"
-                onChangeHandler={onSearchChangeHandler}
-              />
-            </div>
-          </Col>
-          <Col lg={4} xl={4} xs={24} sm={24}>
-            <div>
-              <AppMultiSelectDropDown
-                placeholder="Select Types"
-                isOpen={isOpenTypeFilter}
-                data={pokemonTypes}
-                label="Type"
-                onChangeHandler={onTypeChangeHandler}
-                onOpenHandler={onOpenTypeHandler}
-                onCloseHandler={onCloseTypeHandler}
-                onCleanHandler={onCleanTypeHandler}
-              />
-            </div>
-          </Col>
-          <Col lg={4} xl={4} xs={24} sm={24}>
-            <div>
-              <AppMultiSelectDropDown
-                placeholder="Select Gender"
-                isOpen={isOpenGendreFilter}
-                data={pokemonGenders}
-                label="Gender"
-                onChangeHandler={onGenderChangeHandler}
-                onOpenHandler={onOpenGenderHandler}
-                onCloseHandler={onCloseGenderHandler}
-              />
-            </div>
-          </Col>
-        </Row>
+    <>
+      <div className="filter-container">
+        <div className="filter-wrap">
+          <Row lg={24} xl={24} className="filter-row-wrap show-grid">
+            <Col lg={16} xl={16} xs={24} sm={24}>
+              <div>
+                <SearchFilter
+                  placeholder="Name or Number"
+                  inputClass="pokemon-search-filter"
+                  label="Search By"
+                  onChangeHandler={onSearchChangeHandler}
+                />
+              </div>
+            </Col>
+            <Col lg={4} xl={4} xs={24} sm={24}>
+              <div>
+                <AppMultiSelectDropDown
+                  placeholder="Select Types"
+                  isOpen={isOpenTypeFilter}
+                  data={pokemonsTypes}
+                  label="Type"
+                  onChangeHandler={onTypeChangeHandler}
+                  onOpenHandler={onOpenTypeHandler}
+                  onCloseHandler={onCloseTypeHandler}
+                  onCleanHandler={onCleanTypeHandler}
+                />
+              </div>
+            </Col>
+            <Col lg={4} xl={4} xs={24} sm={24}>
+              <div>
+                <AppMultiSelectDropDown
+                  placeholder="Select Gender"
+                  isOpen={isOpenGendreFilter}
+                  data={pokemonGenderList}
+                  label="Gender"
+                  onChangeHandler={onGenderChangeHandler}
+                  onOpenHandler={onOpenGenderHandler}
+                  onCloseHandler={onCloseGenderHandler}
+                />
+              </div>
+            </Col>
+          </Row>
+        </div>
       </div>
-    </div>
+    </>
   );
+};
+AppFilter.propTypes = {
+  isFilterEnable: PropTypes.func,
 };
 
 export default AppFilter;
