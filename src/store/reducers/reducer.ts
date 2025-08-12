@@ -102,7 +102,7 @@ export const initialState: PokemonState = {
 
 // Reducer
 export const reducer = (
-  state: PokemonState,
+  state: PokemonState = initialState,
   action: PokemonAction
 ): PokemonState => {
   switch (action.type) {
