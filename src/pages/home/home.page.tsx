@@ -53,6 +53,7 @@ const HomePage = () => {
       <div className="home-container">
         <div>
           <Header className="header-container">
+            {/* @ts-ignore */}
             <Row lg={24} xl={24} className="app-header-wrap show-grid">
               <Col xs={12} sm={12} lg={5} xl={5}>
                 <div className="header-title">

@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useContext, useEffect, useState } from "react";
 import { Col, Row } from "rsuite";
 import { debounceTime, distinctUntilChanged, map, of } from "rxjs";
@@ -217,6 +216,7 @@ const AppFilter = ({ ...props }) => {
     <>
       <div className="filter-container">
         <div className="filter-wrap">
+          {/* @ts-ignore */}
           <Row lg={24} xl={24} className="filter-row-wrap show-grid">
             <Col lg={16} xl={16} xs={24} sm={24}>
               <div>
@@ -260,9 +260,6 @@ const AppFilter = ({ ...props }) => {
       </div>
     </>
   );
-};
-AppFilter.propTypes = {
-  isFilterEnable: PropTypes.func,
 };
 
 export default AppFilter;

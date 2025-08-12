@@ -1,15 +1,14 @@
-import React, { Suspense, useState } from "react";
-import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
+import { Suspense, lazy, useState } from "react";
+import { Route, Routes, useParams } from "react-router-dom";
 import "rsuite/dist/rsuite.min.css";
 import "rsuite/styles/index.less";
 import "./App.css";
 import { ROUTES } from "./constants/routepaths";
 import { PokemonProvider } from "./context/pokemonContext/pokemon.provider";
 
-const HomePage = React.lazy(() => import("./pages/home/home.page"));
-const DetailPage = React.lazy(() => import("./pages/details/details.page"));
+const HomePage = lazy(() => import("./pages/home/home.page"));
+const DetailPage = lazy(() => import("./pages/details/details.page"));
 
-// Wrapper component to handle DetailPage props
 const DetailPageWrapper: React.FC = () => {
   const { pokemonId } = useParams<{ pokemonId: string }>();
   const [isCardSelected, setIsCardSelected] = useState(true);
@@ -30,33 +29,27 @@ const DetailPageWrapper: React.FC = () => {
   );
 };
 
-const App = () => {
+function App() {
   return (
     <main>
       <PokemonProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path={ROUTES.HOME}
-              element={
-                <Suspense fallback={<div>Loading</div>}>
-                  <HomePage />
-                </Suspense>
-              }
-            />
-            <Route
-              path={`${ROUTES.DETAILS}/:pokemonId`}
-              element={
-                <Suspense fallback={<div>Loading</div>}>
-                  <DetailPageWrapper />
-                </Suspense>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
+        <Routes>
+          <Route
+            path={ROUTES.HOME}
+            element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <HomePage />
+              </Suspense>
+            }
+          />
+          <Route
+            path={`${ROUTES.DETAILS}/:pokemonId`}
+            element={<DetailPageWrapper />}
+          />
+        </Routes>
       </PokemonProvider>
     </main>
   );
-};
+}
 
 export default App;

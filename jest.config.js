@@ -5,4 +5,5 @@ module.exports = {
     "^.+\\.(ts|tsx)$": "ts-jest",
   },
   collectCoverageFrom: ["src/**/*.{ts,tsx}"],
+  testEnvironment: "jsdom",
 };
