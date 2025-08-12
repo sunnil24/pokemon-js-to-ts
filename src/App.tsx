@@ -59,4 +59,4 @@ const App = () => {
   );
 };
 
-export default React.memo(App); // Memoizing to prevent unnecessary re-renders
+export default App;
