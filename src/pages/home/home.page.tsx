@@ -14,16 +14,15 @@ const HomePage = () => {
   const [pokemonId, setPokemonId] = useState();
   const [isFilterEnable, setIsFilterEnable] = useState(false);
 
-  const { state, getPokemonData } = useContext<any>(PokemonContext);
+  const { state, getPokemonData } = useContext(PokemonContext);
   const { pokemonsList, isLoading, isLoadMoreInprogress } = state;
-  console.log(state, "state in home page");
 
   const pokemonsListView = useMemo(
     () =>
       pokemonsList?.map((data) => (
-        <div key={`list-${data.id}-${data.name}`} className="responsive">
+        <div key={data.id} className="responsive">
           <PokemonCard
-            key={`card-${data.id}-${data.name}`}
+            key={data.id}
             data={data}
             onClick={() => {
               setPokemonId(data.id);
@@ -47,14 +46,13 @@ const HomePage = () => {
     setIsFilterEnable(isEnable);
   };
 
-  // if (isLoading) return <Apploader className="app-loader-wrapper" />;
+  // if (isLoading) return (<Apploader className="app-loader-wrapper" />);
 
   return (
     <>
       <div className="home-container">
         <div>
           <Header className="header-container">
-            {/* @ts-ignore */}
             <Row lg={24} xl={24} className="app-header-wrap show-grid">
               <Col xs={12} sm={12} lg={5} xl={5}>
                 <div className="header-title">
@@ -75,7 +73,7 @@ const HomePage = () => {
             <AppFilter isFilterEnable={isFilterEnableHandler} />
           </div>
         </div>
-        {pokemonsList?.length > 0 && (
+        {pokemonsList.length > 0 && (
           <div>
             <div className="card-list">{pokemonsListView}</div>
             <div>
@@ -92,7 +90,7 @@ const HomePage = () => {
             )}
           </div>
         )}
-        {!pokemonsList?.length && (
+        {!pokemonsList.length && (
           <div className="no-data-found">
             <span>No data found</span>
           </div>
@@ -104,7 +102,7 @@ const HomePage = () => {
               isCardSelected={isCardSelected}
               toggleModal={toggleModal}
               pokemonId={pokemonId}
-              offset={pokemonsList?.length}
+              offset={pokemonsList.length}
             />
           )}
         </div>
