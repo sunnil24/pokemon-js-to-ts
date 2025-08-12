@@ -89,13 +89,17 @@ export const PokemonProvider: React.FC<PokemonProviderProps> = ({
     });
   };
 
+  let count = 0;
   useEffect(() => {
-    getPokemonData().then(() => {
-      if (state.isLoading) {
-        setAppLoading(false);
-      }
-    });
-    getAllPokemonDataList();
+    count += 1;
+    if (count === 1) {
+      getPokemonData().then(() => {
+        if (state.isLoading) {
+          setAppLoading(false);
+        }
+      });
+      getAllPokemonDataList();
+    }
   }, []);
 
   return (
