@@ -20,11 +20,15 @@ module.exports = {
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "warn",
-    "react/react-in-jsx-scope": "off", // Not needed with React 17+
-    "react/prop-types": "off", // Using TS for prop types instead
-    "react/no-unescaped-entities": "off", // Allow unescaped entities in JSX
-    "@typescript-eslint/no-empty-function": "off", // Warn on empty functions
-    "@typescript-eslint/ban-ts-comment": "off", // Allow ts-ignore comments
+    "react/react-in-jsx-scope": "off", 
+    "react/prop-types": "off", 
+    "react/no-unescaped-entities": "off", 
+    "@typescript-eslint/no-empty-function": "off", 
+    "@typescript-eslint/ban-ts-comment": "off", 
+    "react/display-name": "off", 
+    "@typescript-eslint/no-var-require": "off",
+    "@typescript-eslint/no-var-requires": "off", 
+    "import/first": "off"
   },
   settings: {
     react: {

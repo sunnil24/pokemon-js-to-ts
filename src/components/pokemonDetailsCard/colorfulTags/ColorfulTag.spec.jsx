@@ -1,13 +1,13 @@
 // ColorfulTag.test.jsx
 import { render, screen } from "@testing-library/react";
 
+import { getPokcolor } from "../../../constants/pokemon.types";
+import ColorfulTag from "./colorfulTag";
+
 // Mock getPokcolor so we can control the style output
 jest.mock("../../../constants/pokemon.types", () => ({
   getPokcolor: jest.fn(() => "mocked-color"),
 }));
-
-import { getPokcolor } from "../../../constants/pokemon.types";
-import ColorfulTag from "./colorfulTag";
 
 describe("ColorfulTag", () => {
   beforeEach(() => {
