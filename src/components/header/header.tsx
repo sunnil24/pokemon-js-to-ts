@@ -1,6 +1,7 @@
+import { ComponentProps } from "react";
 import "./header.scss";
 
-const Header = ({ children }: any) => {
+const Header = ({ children }: ComponentProps<"header">) => {
   return <header className="header">{children}</header>;
 };
 

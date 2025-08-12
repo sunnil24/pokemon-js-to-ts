@@ -16,7 +16,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "typeRoots": ["./node_modules/@types", "./src/types"],
-    "types": ["react", "react-dom"],
+    "types": ["react", "react-dom", "jest", "node", "@testing-library/jest-dom"],
     "baseUrl": "src",
     
   },
@@ -24,6 +24,11 @@
     "src"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.test.tsx", 
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/__tests__/**"
   ]
 }

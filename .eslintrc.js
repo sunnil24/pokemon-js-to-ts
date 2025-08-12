@@ -23,6 +23,21 @@ module.exports = {
     "react/prop-types": "off",
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/ban-ts-comment": "off",
+    "no-restricted-imports": [
+      "error",
+      {
+        patterns: [
+          "*.test",
+          "*.spec",
+          "*/*.test",
+          "*/*.spec",
+          "*/*.test.ts",
+          "*/*.spec.ts",
+          "*/*.test.tsx",
+          "*/*.spec.tsx",
+        ],
+      },
+    ],
   },
   settings: {
     react: {
