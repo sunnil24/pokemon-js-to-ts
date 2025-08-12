@@ -10,9 +10,10 @@ module.exports = {
   },
   plugins: ["@typescript-eslint", "react"],
   extends: [
-    "plugin:react/recommended", // React recommended rules
-    "plugin:@typescript-eslint/recommended", // TypeScript recommended rules
-    "react-app", // CRA base rules (optional, if CRA setup)
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "react-app",
+    "plugin:storybook/recommended",
   ],
   rules: {
     // Customize your rules here
@@ -21,6 +22,7 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "warn",
     "react/react-in-jsx-scope": "off", // Not needed with React 17+
     "react/prop-types": "off", // Using TS for prop types instead
+    "react/no-unescaped-entities": "off", // Allow unescaped entities in JSX
   },
   settings: {
     react: {

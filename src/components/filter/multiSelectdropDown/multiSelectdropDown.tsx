@@ -12,7 +12,7 @@ interface AppMultiSelectDropDownProps {
   isOpen?: boolean;
 }
 
-const AppMultiSelectDropDown = ({
+export const AppMultiSelectDropDown = ({
   label,
   data,
   onChangeHandler,
