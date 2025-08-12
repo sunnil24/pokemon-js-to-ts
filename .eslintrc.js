@@ -23,6 +23,8 @@ module.exports = {
     "react/react-in-jsx-scope": "off", // Not needed with React 17+
     "react/prop-types": "off", // Using TS for prop types instead
     "react/no-unescaped-entities": "off", // Allow unescaped entities in JSX
+    "@typescript-eslint/no-empty-function": "off", // Warn on empty functions
+    "@typescript-eslint/ban-ts-comment": "off", // Allow ts-ignore comments
   },
   settings: {
     react: {

@@ -11,7 +11,7 @@ const sampleData = [
 ];
 
 const meta: Meta<typeof AppMultiSelectDropDown> = {
-  title: "Components/AppMultiSelectDropDown",
+  title: "Components/Filter/MultiSelectDropDown",
   component: AppMultiSelectDropDown,
 };
 
