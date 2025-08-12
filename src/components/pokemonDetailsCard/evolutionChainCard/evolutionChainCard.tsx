@@ -1,3 +1,4 @@
+// evolutionChainCard.tsx
 import rightArrowIcon from "../../../assets/icons/right-arrow.png";
 import "../../../styles/common.scss";
 import PokemonCard from "../../pokemonCard/pokemonCard";
@@ -11,13 +12,14 @@ const EvolutionChainCard = ({ data }: any) => {
       <div className="evol-container">
         <div className="evol-wrap evolu-break">
           {arrayele?.map((obj, index) => (
-            <div className="flex-row" key={obj}>
+            <div className="flex-row" key={index}>
               <div>
                 <div className="pt-2">
                   <PokemonCard
                     className="disabled-click"
-                    key={data?.id}
-                    data={data}
+                    // provide fallback key and fallback data to avoid crashes
+                    key={data?.id ?? index}
+                    data={data ?? {}}
                   />
                 </div>
               </div>
@@ -29,7 +31,7 @@ const EvolutionChainCard = ({ data }: any) => {
                       alt="right arrow icon"
                       onKeyDown={() => {}}
                       role="presentation"
-                    ></img>
+                    />
                   </div>
                 </div>
               )}
