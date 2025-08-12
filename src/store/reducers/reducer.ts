@@ -105,8 +105,6 @@ export const reducer = (
   state: PokemonState,
   action: PokemonAction
 ): PokemonState => {
-  console.log(action, "action in reducer");
-
   switch (action.type) {
     case SET_POKEMON_LIST:
       return {

@@ -27,8 +27,6 @@ const AppFilter = ({ ...props }) => {
   } = useContext(PokemonContext);
   const { allPokemonsList, pokemonsTypes, pokemonGenderList } = state;
 
-  console.log(state, "state in filter");
-
   const [isOpenTypeFilter, setIsOpenTypeFilter] = useState(false);
   const [isOpenGendreFilter, setIsOpenGenderFilter] = useState(false);
 

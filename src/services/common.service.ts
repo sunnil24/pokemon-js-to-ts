@@ -6,7 +6,6 @@ export const allPokemonURL = `${baseURL}/pokemon?limit=1100`;
 export const getPokemonData = async () => {
   const response = await fetch(`${initialURL}`);
   const result = response.json();
-  console.log(result, "--result");
 
   return result;
 };
