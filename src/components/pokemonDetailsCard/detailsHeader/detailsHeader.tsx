@@ -3,7 +3,7 @@ import backIcon from "../../../assets/icons/back-icon.png";
 import closeIcon from "../../../assets/icons/close-icon.png";
 import rightIcon from "../../../assets/icons/right-icon.png";
 import { getPokemonDescription } from "../../../constants/pokemon.types";
-import { Pokemon } from "../../../context/pokemonContext/pokemon.context";
+import { Pokemon } from "../../../context/pokemonContext/pokemon.context986348923";
 import AppTooltip from "../../../hooks/tooltip/tooltip";
 import { numberFormation } from "../../../services/common.service";
 import "../../../styles/common.scss";

@@ -10,7 +10,7 @@ import PokemonContext, {
   PokemonContextType,
   PokemonGender,
   PokemonType,
-} from "../../context/pokemonContext/pokemon.context";
+} from "../../context/pokemonContext/pokemon.context986348923";
 import {
   getAllParallelCall,
   getPokemonGenders,
