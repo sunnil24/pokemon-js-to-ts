@@ -1,5 +1,8 @@
 {
-    "Slingshot.atTheRateWorkspaceOtherFoldersInclusionForScan": [
-        "/Users/sunsriva/Documents/Learnings/AL1/pokedex-development"
-    ]
+  "Slingshot.atTheRateWorkspaceOtherFoldersInclusionForScan": [
+    "/Users/sunsriva/Documents/Learnings/AL1/pokedex-development"
+  ],
+  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "typescript.validate.enable": true,
+  "typescript.suggest.autoImports": true
 }

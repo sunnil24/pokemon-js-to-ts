@@ -16,13 +16,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "typeRoots": ["./node_modules/@types", "./src/types"],
-    "types": [
-      "react",
-      "react-dom",
-      "jest",
-      "node",
-      "@testing-library/jest-dom"
-    ],
+    "types": ["react", "react-dom", "jest", "node"],
     "baseUrl": "src"
   },
   "include": ["src"],
